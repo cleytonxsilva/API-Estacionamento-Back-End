@@ -17,15 +17,19 @@ public class Condutor extends AbstractEntity{
     @Getter @Setter
     @Column(name = "nome_condutor", nullable = false, length = 50)
     private String nomeCondutor;
+
     @Getter @Setter
     @Column(name = "cpf", nullable = false, unique = true, length = 20)
     private String cpf;
+
     @Getter @Setter
     @Column(name = "telefone", nullable = false, length = 20)
     private String telefone;
+
     @Getter @Setter
-    @Column(name = "tempo_pago")
+    @Column(name = "tempo_pago", nullable = false)
     private LocalTime tempoPago;
+
     @Getter @Setter
     @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
