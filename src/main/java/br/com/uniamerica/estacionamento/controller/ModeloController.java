@@ -60,7 +60,7 @@ public class ModeloController {
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo) {
         try {
-            this.modeloService.excluir(modelo.getId());
+            this.modeloService.cadastrar(modelo);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
