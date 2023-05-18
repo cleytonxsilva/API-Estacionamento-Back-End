@@ -1,14 +1,14 @@
 package br.com.uniamerica.estacionamento.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
 import java.time.LocalTime;
+import java.util.List;
+
 @Entity
 @Audited
 @Table(name = "condutor", schema = "public")
@@ -33,5 +33,9 @@ public class Condutor extends AbstractEntity{
     @Getter @Setter
     @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
+
+    @Getter @Setter
+    @OneToMany(mappedBy = "condutor",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    private List<Movimentacao> movimentacoes;
 
 }

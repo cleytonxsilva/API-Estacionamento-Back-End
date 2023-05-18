@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 
+import java.util.List;
+
 @Entity
 @Audited
 @Table(name = "veiculo", schema = "public")
@@ -34,5 +36,10 @@ public class Veiculo extends AbstractEntity{
     @Getter @Setter
     @Column(name = "tipo_veiculo", nullable = false)
     private TipoVeiculo tipo;
+
+    @Getter @Setter
+    @OneToMany(mappedBy = "veiculo",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    private List<Movimentacao> movimentacoes;
+
 
 }
