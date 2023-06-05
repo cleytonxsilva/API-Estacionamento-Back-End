@@ -30,6 +30,7 @@ public class MarcaService {
         if(marca.getNome().length() > 50){
             throw new RuntimeException("Limite máximo de 50 caracteres");
         }
+//        marca.setAtivo(false);
         marcaRepository.save(marca);
     }
 
@@ -48,9 +49,13 @@ public class MarcaService {
     @Transactional(rollbackFor = Exception.class)
     public void excluir (final Long id){
         Optional<Marca> excluirMarca = marcaRepository.findById(id);
-        if(isNull(excluirMarca)){
+        if(excluirMarca.isEmpty()){
             throw new RuntimeException("Marca não encontrada");
         }
+        if(excluirMarca.get().isAtivo()){
+            throw new IllegalStateException("Não é possível excluir esta marca pois existem modelos cadastrados com ela.");
+        }
+
         marcaRepository.deleteById(id);
     }
 
