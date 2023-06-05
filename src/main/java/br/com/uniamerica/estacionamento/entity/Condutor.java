@@ -35,7 +35,7 @@ public class Condutor extends AbstractEntity{
     private LocalTime tempoDesconto;
 
     @Getter @Setter
-    @OneToMany(mappedBy = "condutor",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Movimentacao> movimentacoes;
 
 }

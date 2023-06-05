@@ -18,6 +18,6 @@ public class Marca extends AbstractEntity{
     private String nome;
 
     @Getter @Setter
-    @OneToMany(mappedBy = "marca",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Modelo> modelo;
 }

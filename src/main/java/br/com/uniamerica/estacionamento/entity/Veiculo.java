@@ -38,7 +38,7 @@ public class Veiculo extends AbstractEntity{
     private TipoVeiculo tipo;
 
     @Getter @Setter
-    @OneToMany(mappedBy = "veiculo",fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Movimentacao> movimentacoes;
 
 

@@ -23,7 +23,7 @@ public class Modelo extends AbstractEntity{
     private Marca marca;
 
     @Getter @Setter
-    @OneToMany(mappedBy = "modelo",fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
+    @OneToMany(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Veiculo> veiculo;
 
 }
