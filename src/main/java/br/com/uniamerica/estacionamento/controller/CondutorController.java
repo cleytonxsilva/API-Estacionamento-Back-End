@@ -43,7 +43,6 @@ public class CondutorController {
             this.condutorService.cadastrar(condutor);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         } catch (DataIntegrityViolationException e) {
-            //System.out.println(e.getCause().toString());
             return ResponseEntity.internalServerError().body("Error" + e.getCause());
 
         }

@@ -34,9 +34,9 @@ public class MarcaController {
     }
 
     @GetMapping("/ativos")
-    public ResponseEntity<?> findByAtivo(){
-        final List<Marca> marcas = this.marcaService.findByAtivo(true);
-        return ResponseEntity.ok(marcas);
+    public ResponseEntity<?> findByAtivoTrue(){
+        final List<Marca> ativosMarca = this.marcaService.findByAtivoTrue();
+        return ResponseEntity.ok(ativosMarca);
     }
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Marca marca) {
@@ -44,7 +44,9 @@ public class MarcaController {
             this.marcaService.cadastrar(marca);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
+        } catch (RuntimeException e){
+            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
         }
     }
     @PutMapping

@@ -18,15 +18,19 @@ public class MarcaService {
     private MarcaRepository marcaRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(final Marca nome) {
-        if(isNull(nome.getNome())){
-            throw new RuntimeException("O campo Marca não pode ser nulo!");
-        }
-        Marca findByMarca = marcaRepository.findByMarca(nome);
-        if(!isNull(findByMarca)){
+    public void cadastrar(final Marca marca) {
+        Optional <Marca> marcaBanco = this.marcaRepository.findByNome(marca.getNome());
+        if(marcaBanco.isPresent()){
             throw new RuntimeException("Marca já cadastrada");
         }
-        marcaRepository.save(nome);
+
+        if(marca.getNome() == null){
+            throw new RuntimeException("O campo Marca não pode ser nulo!");
+        }
+        if(marca.getNome().length() > 50){
+            throw new RuntimeException("Limite máximo de 50 caracteres");
+        }
+        marcaRepository.save(marca);
     }
 
     public Optional<Marca> findById(Long id) {
@@ -37,8 +41,8 @@ public class MarcaService {
         return marcaRepository.findAll();
     }
 
-    public List<Marca> findByAtivo(boolean ativo) {
-        return marcaRepository.findByAtivo(true);
+    public List<Marca> findByAtivoTrue() {
+        return marcaRepository.findByAtivoTrue();
     }
 
     @Transactional(rollbackFor = Exception.class)
