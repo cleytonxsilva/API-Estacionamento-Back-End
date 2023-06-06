@@ -21,22 +21,6 @@ public class ModeloController {
     @Autowired
     private VeiculoService veiculoService;
 
-    /*
-    public ModeloController(ModeloRepository modeloRepository){
-        this.modeloRepository = modeloRepository;}
-    */
-
-    /* http://localhost:8080/api/modelo/1
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdPath(@PathVariable("id") final Long id){
-        final Modelo modelo = this.modeloRepository.findById(id).orElse(null);
-        return modelo == null
-            ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
-            : ResponseEntity.ok(modelo);
-    }
-*/
-
-    /* http://localhost:8080/api/modelo?id=1 */
     @GetMapping
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
         final Modelo modelo = this.modeloService.findById(id).orElse(null);
@@ -44,19 +28,17 @@ public class ModeloController {
             ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
             : ResponseEntity.ok(modelo);
     }
-    /* http://localhost:8080/api/modelo/lista */
     @GetMapping("/lista")
     public ResponseEntity<?> listaCompleta(){
         return ResponseEntity.ok(this.modeloService.findAll());
     }
 
     @GetMapping("/ativos")
-    public ResponseEntity<?> findByAtivo(){
-        final List<Modelo> modelos = this.modeloService.findByAtivo(true);
-        return ResponseEntity.ok(modelos);
+    public ResponseEntity<?> findByAtivoTrue(){
+        final List<Modelo> ativosModelo = this.modeloService.findByAtivoTrue();
+        return ResponseEntity.ok(ativosModelo);
     }
 
-    /* http://localhost:8080/api/modelo --POST */
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo) {
         try {
@@ -87,7 +69,6 @@ public class ModeloController {
         }
     }
 
-    /* http://localhost:8080/api/modelo --DELETE */
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
         try {

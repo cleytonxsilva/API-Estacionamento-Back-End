@@ -8,13 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ModeloRepository extends JpaRepository<Modelo, Long> {
-    List<Modelo> findByAtivo(boolean ativo);
+    List<Modelo> findByAtivoTrue();
 
-    public List<Modelo> findByAtivoIsTrue();
-
-    @Query("select n from Modelo n where n.modelo = :#{#modelo}")
-    Marca findByModelo(@Param("modelo")Modelo nome);
+    Optional<Modelo> findByNome(String nome);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Modelo extends AbstractEntity{
     @Getter @Setter
     @Column(name = "modelo",nullable = false, unique = true, length = 50)
-    private String modelo;
+    private String nome;
 
     @Getter @Setter
     @ManyToOne(fetch = FetchType.EAGER)

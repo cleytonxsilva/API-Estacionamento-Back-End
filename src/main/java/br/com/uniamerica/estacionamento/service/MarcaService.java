@@ -19,18 +19,18 @@ public class MarcaService {
 
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Marca marca) {
+        if(marca.getNome() == null){
+            throw new RuntimeException("O campo Marca não pode ser nulo!");
+        }
         Optional <Marca> marcaBanco = this.marcaRepository.findByNome(marca.getNome());
         if(marcaBanco.isPresent()){
             throw new RuntimeException("Marca já cadastrada");
         }
 
-        if(marca.getNome() == null){
-            throw new RuntimeException("O campo Marca não pode ser nulo!");
-        }
         if(marca.getNome().length() > 50){
             throw new RuntimeException("Limite máximo de 50 caracteres");
         }
-//        marca.setAtivo(false);
+        marca.setAtivo(false);
         marcaRepository.save(marca);
     }
 
