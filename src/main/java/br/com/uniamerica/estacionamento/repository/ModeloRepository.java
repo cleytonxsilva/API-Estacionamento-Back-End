@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface ModeloRepository extends JpaRepository<Modelo, Long> {
     List<Modelo> findByAtivoTrue();
 
-    Optional<Modelo> findByNome(String nome);
+    Optional<Modelo> findByModelo(String modelo);
 }

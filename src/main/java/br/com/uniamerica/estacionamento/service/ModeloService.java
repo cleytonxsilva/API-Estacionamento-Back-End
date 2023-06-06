@@ -22,20 +22,28 @@ public class ModeloService {
     private MarcaRepository marcaRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(final Modelo modelo) {
+    public void cadastrar(final Modelo modelo, final Marca marca) {
+
+
+//            Optional<Marca> marcaBanco = this.marcaRepository.findByMarca(marca.getMarca());
+//            Optional<Modelo> modeloBanco = this.modeloRepository.findByModelo(modelo.getModelo());
+//            if (marcaBanco.isPresent() && modeloBanco.isPresent()){
+//
+//            }
+
 
         if(modelo.getId() == null){
             throw new RuntimeException("O campo Id-Modelo não pode ser nulo!");
         }
-        Optional <Modelo> modeloBanco = this.modeloRepository.findByNome(modelo.getNome());
+        Optional <Modelo> modeloBanco = this.modeloRepository.findByModelo(modelo.getModelo());
         if(modeloBanco.isPresent()){
             throw new RuntimeException("Modelo já cadastrado com esse nome!");
         }
 
-        if(modelo.getNome().length() > 50){
+        if(modelo.getModelo().length() > 50){
             throw new RuntimeException("Limite máximo de 50 caracteres");
         }
-        modelo.setAtivo(false);
+        //modelo.setAtivo(false);
         modeloRepository.save(modelo);
     }
 
@@ -54,8 +62,11 @@ public class ModeloService {
     @Transactional(rollbackFor = Exception.class)
     public void excluir (final Long id){
         Optional<Modelo> excluirModelo = modeloRepository.findById(id);
-        if(isNull(excluirModelo)){
-            throw new RuntimeException("Modelo não encontrado");
+        if(excluirModelo.isEmpty()){
+            throw new RuntimeException("Marca não encontrada");
+        }
+        if(excluirModelo.get().isAtivo()){
+            throw new IllegalStateException("Não é possível excluir esta marca pois existem modelos cadastrados com ela.");
         }
         modeloRepository.deleteById(id);
     }

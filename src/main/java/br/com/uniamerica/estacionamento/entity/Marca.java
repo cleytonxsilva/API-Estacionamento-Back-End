@@ -15,7 +15,7 @@ import java.util.List;
 public class Marca extends AbstractEntity{
     @Getter @Setter
     @Column(name = "nome", nullable = false, unique = true, length = 50)
-    private String nome;
+    private String marca;
 
     @Getter @Setter
     @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)

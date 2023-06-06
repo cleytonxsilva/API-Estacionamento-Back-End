@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface MarcaRepository extends JpaRepository<Marca, Long> {
     List<Marca> findByAtivoTrue();
 
-    Optional<Marca> findByNome(String nome);
+    Optional<Marca> findByMarca(String marca);
 }

@@ -17,15 +17,20 @@ public class VeiculoService {
     @Autowired
     public VeiculoRepository veiculoRepository;
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(final Veiculo modelo) {
-        if(isNull(modelo.getModelo())){
-            throw new RuntimeException("campo Veiculo não pode ser nulo");
+    public void cadastrar(final Veiculo veiculo) {
+
+        if(veiculo.getId() == null){
+            throw new RuntimeException("O campo Id-Veiculo não pode ser nulo!");
         }
-        Modelo findByModelo = veiculoRepository.findByModelo(modelo);
-        if(!isNull(findByModelo)){
-            throw new RuntimeException("CPF já cadastrado");
+        Optional <Veiculo> veiculoBanco = this.veiculoRepository.findByVeiculo(veiculo.getVeiculo());
+        if(veiculoBanco.isPresent()){
+            throw new RuntimeException("Veiculo já cadastrado com esse nome!");
         }
-        veiculoRepository.save(modelo);
+
+        if(veiculo.getVeiculo().length() > 50){
+            throw new RuntimeException("Limite máximo de 50 caracteres");
+        }
+        veiculoRepository.save(veiculo);
     }
 
     public Optional<Veiculo> findById(Long id){
