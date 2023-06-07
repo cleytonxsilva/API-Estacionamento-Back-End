@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.Objects.isNull;
@@ -22,13 +23,12 @@ public class VeiculoService {
         if(veiculo.getId() == null){
             throw new RuntimeException("O campo Id-Veiculo não pode ser nulo!");
         }
-        Optional <Veiculo> veiculoBanco = this.veiculoRepository.findByVeiculo(veiculo.getVeiculo());
-        if(veiculoBanco.isPresent()){
-            throw new RuntimeException("Veiculo já cadastrado com esse nome!");
+        Veiculo veiculoBanco = this.veiculoRepository.findByPlacaCarro(veiculo.getPlacaCarro());
+        if(veiculo.getPlacaCarro().equals(veiculoBanco.getPlacaCarro())){
+            throw new RuntimeException("Veiculo já cadastrado com essa placa!");
         }
-
-        if(veiculo.getVeiculo().length() > 50){
-            throw new RuntimeException("Limite máximo de 50 caracteres");
+        if(veiculo.getPlacaCarro().length() > 10){
+            throw new RuntimeException("Limite máximo de 10 caracteres");
         }
         veiculoRepository.save(veiculo);
     }
@@ -39,16 +39,20 @@ public class VeiculoService {
     public List<Veiculo> findAll() {
         return veiculoRepository.findAll();
     }
-    public List<Veiculo> findByAtivo(boolean ativo) {
-        return veiculoRepository.findByAtivo(true);
+    public List<Veiculo> findByAtivoTrue(boolean ativo) {
+        return veiculoRepository.findByAtivoTrue();
     }
 
+    public List<Veiculo> findByAtivoTrue() {
+        return veiculoRepository.findByAtivoTrue();
+    }
     @Transactional(rollbackFor = Exception.class)
     public void excluir (final Long id){
         Optional<Veiculo> excluirVeiculo = veiculoRepository.findById(id);
-        if(isNull(excluirVeiculo)){
-            throw new RuntimeException("Veículo não encontrado");
-        }
+//        if((excluirVeiculo)){
+//            throw new RuntimeException("Veículo não encontrado");
+//        }
         veiculoRepository.deleteById(id);
     }
+
 }

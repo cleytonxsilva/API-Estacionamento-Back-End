@@ -22,7 +22,7 @@ public class ModeloService {
     private MarcaRepository marcaRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void cadastrar(final Modelo modelo, final Marca marca) {
+    public void cadastrar(final Modelo modelo) {
 
 
 //            Optional<Marca> marcaBanco = this.marcaRepository.findByMarca(marca.getMarca());

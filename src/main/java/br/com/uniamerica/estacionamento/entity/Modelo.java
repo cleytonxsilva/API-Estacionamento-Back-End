@@ -1,5 +1,6 @@
 package br.com.uniamerica.estacionamento.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class Modelo extends AbstractEntity{
     private Marca marca;
 
     @Getter @Setter
+//    @JsonIgnore(value = true)
     @OneToMany(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Veiculo> veiculo;
 

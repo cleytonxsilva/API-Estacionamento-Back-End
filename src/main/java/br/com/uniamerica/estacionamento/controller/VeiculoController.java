@@ -3,6 +3,7 @@ package br.com.uniamerica.estacionamento.controller;
 
 import br.com.uniamerica.estacionamento.entity.Movimentacao;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
+import br.com.uniamerica.estacionamento.repository.VeiculoRepository;
 import br.com.uniamerica.estacionamento.service.MovimentacaoService;
 import br.com.uniamerica.estacionamento.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class VeiculoController {
     private VeiculoService veiculoService;
     @Autowired
     private MovimentacaoService movimentacaoService;
+    @Autowired
+    private VeiculoRepository veiculoRepository;
 
     @GetMapping
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
@@ -28,6 +31,13 @@ public class VeiculoController {
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
                 : ResponseEntity.ok(veiculo);
     }
+    @GetMapping("/placa:{placa}")
+    public ResponseEntity<?> findByPlaca(@PathVariable ("placa") final String placaCarro){
+        final Veiculo veiculoByPlaca = veiculoRepository.findByPlacaCarro(placaCarro);
+
+        return ResponseEntity.ok(veiculoByPlaca);
+    }
+
     @GetMapping("/lista")
     public ResponseEntity<?> listaCompleta(){
         return ResponseEntity.ok(this.veiculoService.findAll());
@@ -35,7 +45,7 @@ public class VeiculoController {
 
     @GetMapping("/ativos")
     public ResponseEntity<?> findByAtivo(){
-        final List<Veiculo> veiculos = this.veiculoService.findByAtivo(true);
+        final List<Veiculo> veiculos = this.veiculoService.findByAtivoTrue();
         return ResponseEntity.ok(veiculos);
     }
     @PostMapping
