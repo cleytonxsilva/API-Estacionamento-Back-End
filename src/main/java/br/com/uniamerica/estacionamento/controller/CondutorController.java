@@ -33,8 +33,8 @@ public class CondutorController {
     }
 
     @GetMapping("/ativos")
-    public ResponseEntity<?> findByAtivo(){
-        final List<Condutor> condutores = this.condutorService.findByAtivo(true);
+    public ResponseEntity<?> findByAtivoTrue(){
+        final List<Condutor> condutores = this.condutorService.findByAtivoTrue();
             return ResponseEntity.ok(condutores);
     }
     @PostMapping
@@ -61,30 +61,22 @@ public class CondutorController {
             return ResponseEntity.ok("Registro editado com sucesso");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body(e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
+    @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
         try {
-            final Condutor condutor = this.condutorService.findById(id).orElse(null);
-            if(condutor == null){
+            final Condutor condutorBanco = this.condutorService.findById(id).orElse(null);
+            if(condutorBanco == null){
                 throw new Exception("Registro inexistente");
             }
 
-            final List<Movimentacao> movimentacoes = this.movimentacaoRepository.findAll();
-            for(Movimentacao movimentacao : movimentacoes){
-                if(condutor.equals(movimentacao.getCondutor())){
-                    condutor.setAtivo(false);
-                    this.condutorService.cadastrar(condutor);
-                    return ResponseEntity.ok("Registro não está ativo");
-                }
-            }
-
-            if(condutor.isAtivo()){
+            if(condutorBanco.isAtivo()){
                 this.condutorService.excluir(id);
                 return ResponseEntity.ok("Registro deletado com sucesso");
             }
@@ -93,14 +85,8 @@ public class CondutorController {
             }
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-
-//    @DeleteMapping
-//    public ResponseEntity<?> excluir(@RequestBody final Condutor condutor){
-//        this.condutorRepository.delete(condutor);
-//        return ResponseEntity.ok("Registro excluido com sucesso");
-//    }
 
 }

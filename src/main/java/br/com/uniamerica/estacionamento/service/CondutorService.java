@@ -37,8 +37,8 @@ public class CondutorService {
         return condutorRepository.findAll();
     }
 
-    public List<Condutor> findByAtivo(boolean ativo) {
-        return condutorRepository.findByAtivo(true);
+    public List<Condutor> findByAtivoTrue() {
+        return condutorRepository.findByAtivoTrue();
     }
 
 
