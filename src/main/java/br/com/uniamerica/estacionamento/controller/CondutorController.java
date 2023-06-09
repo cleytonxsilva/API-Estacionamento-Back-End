@@ -47,6 +47,7 @@ public class CondutorController {
 
         }
     }
+    @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Condutor condutor){
         try{
             final Condutor condutorBanco = this.condutorService.findById(id).orElse(null);
@@ -56,7 +57,7 @@ public class CondutorController {
                 throw new RuntimeException("Não foi possível identificar o registro informado");
             }
 
-            this.condutorService.cadastrar(condutor);
+            this.condutorService.editar(condutor);
             return ResponseEntity.ok("Registro editado com sucesso");
         }
         catch (DataIntegrityViolationException e){

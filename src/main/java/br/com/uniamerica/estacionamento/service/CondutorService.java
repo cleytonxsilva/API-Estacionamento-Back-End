@@ -21,7 +21,7 @@ public class CondutorService {
         if(isNull(condutor.getNomeCondutor()) || isNull((condutor.getCpf())) || isNull(condutor.getTelefone())){
             throw new RuntimeException("Nome,CPF e Telefone são obrigatórios");
         }
-        Condutor findByCpf = condutorRepository.findByCpf(condutor);
+        Condutor findByCpf = condutorRepository.findByCpf(condutor.getCpf());
         if(!isNull(findByCpf)){
             throw new RuntimeException("CPF já cadastrado");
         }
@@ -45,9 +45,17 @@ public class CondutorService {
     @Transactional(rollbackFor = Exception.class)
     public void excluir (final Long id){
         Optional<Condutor> excluirCondutor = condutorRepository.findById(id);
-        if(isNull(excluirCondutor)){
+        if(excluirCondutor.isEmpty()) {
             throw new RuntimeException("Condutor não encontrado");
         }
         condutorRepository.deleteById(id);
+    }
+
+    public void editar(Condutor condutor) {
+        Optional<Condutor> findByCpf = condutorRepository.findById(condutor.getId());
+        if(findByCpf.isEmpty()){
+            throw new RuntimeException("Parâmetro inválido");
+        }
+        condutorRepository.save(condutor);
     }
 }
