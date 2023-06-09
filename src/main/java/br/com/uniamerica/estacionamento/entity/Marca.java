@@ -14,10 +14,7 @@ import java.util.List;
 @AuditTable(value = "marcas_audit", schema = "audit")
 public class Marca extends AbstractEntity{
     @Getter @Setter
-    @Column(name = "nome", nullable = false, unique = true, length = 50)
+    @Column(name = "marca", nullable = false, unique = true, length = 50)
     private String marca;
 
-    @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    private List<Modelo> modelo;
 }

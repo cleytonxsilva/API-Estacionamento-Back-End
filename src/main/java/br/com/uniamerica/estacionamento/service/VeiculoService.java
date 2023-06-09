@@ -20,13 +20,12 @@ public class VeiculoService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Veiculo veiculo) {
 
-        if(veiculo.getId() == null){
-            throw new RuntimeException("O campo Id-Veiculo não pode ser nulo!");
-        }
         Veiculo veiculoBanco = this.veiculoRepository.findByPlacaCarro(veiculo.getPlacaCarro());
-        if(veiculo.getPlacaCarro().equals(veiculoBanco.getPlacaCarro())){
+        if (veiculoBanco != null){
             throw new RuntimeException("Veiculo já cadastrado com essa placa!");
+
         }
+
         if(veiculo.getPlacaCarro().length() > 10){
             throw new RuntimeException("Limite máximo de 10 caracteres");
         }
@@ -55,4 +54,15 @@ public class VeiculoService {
         veiculoRepository.deleteById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void editar(final Long id, final Veiculo veiculo){
+
+        Veiculo veiculoBanco = this.veiculoRepository.findByPlacaCarro(veiculo.getPlacaCarro());
+        if (veiculoBanco == null){
+            throw new RuntimeException("Veículo não encontrado");
+        }
+
+        veiculoRepository.save(veiculo);
+
+    }
 }

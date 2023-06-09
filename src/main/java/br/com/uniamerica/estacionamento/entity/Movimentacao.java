@@ -14,13 +14,14 @@ import java.time.LocalTime;
 @Table(name = "movimentacao", schema = "public")
 @AuditTable(value = "movimentacao_audit", schema = "audit")
 public class Movimentacao extends AbstractEntity{
+
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "veiculo", nullable = false, unique = true)
     private Veiculo veiculo;
 
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "condutor", nullable = false)
     private Condutor condutor;
 
@@ -46,7 +47,7 @@ public class Movimentacao extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "valor_desconto")
-    private BigDecimal valorDesconto;
+    private BigDecimal valorDesconto = BigDecimal.ZERO;
 
     @Getter @Setter
     @Column(name = "valor_multa")

@@ -24,14 +24,6 @@ public class ModeloService {
     @Transactional(rollbackFor = Exception.class)
     public void cadastrar(final Modelo modelo) {
 
-
-//            Optional<Marca> marcaBanco = this.marcaRepository.findByMarca(marca.getMarca());
-//            Optional<Modelo> modeloBanco = this.modeloRepository.findByModelo(modelo.getModelo());
-//            if (marcaBanco.isPresent() && modeloBanco.isPresent()){
-//
-//            }
-
-
         if(modelo.getId() == null){
             throw new RuntimeException("O campo Id-Modelo não pode ser nulo!");
         }

@@ -23,7 +23,7 @@ public class Veiculo extends AbstractEntity{
     private int anoCarro; //not null
 
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "modelo", nullable = false)
     private Modelo modelo;
 
@@ -36,9 +36,5 @@ public class Veiculo extends AbstractEntity{
     @Getter @Setter
     @Column(name = "tipo_veiculo", nullable = false)
     private TipoVeiculo tipo;
-
-    @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    private List<Movimentacao> movimentacoes;
 
 }

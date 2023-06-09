@@ -28,14 +28,10 @@ public class Condutor extends AbstractEntity{
 
     @Getter @Setter
     @Column(name = "tempo_pago", nullable = false)
-    private LocalTime tempoPago;
+    private Long tempoPago = 0L;
 
     @Getter @Setter
     @Column(name = "tempo_desconto")
-    private LocalTime tempoDesconto;
-
-    @Getter @Setter
-    @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    private List<Movimentacao> movimentacoes;
+    private Long tempoDesconto = 0L;
 
 }

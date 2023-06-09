@@ -19,13 +19,10 @@ public class Modelo extends AbstractEntity{
     private String modelo;
 
     @Getter @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "marca", nullable = false)
     private Marca marca;
 
-    @Getter @Setter
-//    @JsonIgnore(value = true)
-    @OneToMany(fetch =FetchType.LAZY ,cascade = CascadeType.ALL)
-    private List<Veiculo> veiculo;
+
 
 }

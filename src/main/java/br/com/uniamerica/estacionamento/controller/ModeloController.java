@@ -44,8 +44,8 @@ public class ModeloController {
         try {
             this.modeloService.cadastrar(modelo);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @PutMapping

@@ -53,31 +53,21 @@ public class VeiculoController {
         try {
             this.veiculoService.cadastrar(veiculo);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PutMapping
     public ResponseEntity<?> editar(@RequestParam("id") final Long id, @RequestBody final Veiculo veiculo){
         try{
-            final Veiculo veiculoBanco = this.veiculoService.findById(id).orElse(null);
-
-            if(veiculoBanco == null || veiculoBanco.getId().equals(veiculo.getId()))
-            {
-                throw new RuntimeException("Não foi possível identificar o registro informado");
-            }
-
-            this.veiculoService.cadastrar(veiculo);
+            this.veiculoService.editar(id, veiculo);
             return ResponseEntity.ok("Registro editado com sucesso");
         }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
-        }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
     @DeleteMapping
     public ResponseEntity<?> excluir(@RequestParam("id") final Long id){
         try {

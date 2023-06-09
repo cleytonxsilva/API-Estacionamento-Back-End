@@ -44,9 +44,9 @@ public class MarcaController {
             this.marcaService.cadastrar(marca);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.badRequest().body("Error" + e.getMessage());
+            return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
         } catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
+            return ResponseEntity.internalServerError().body("Erro: " + e.getMessage());
         }
     }
     @PutMapping
