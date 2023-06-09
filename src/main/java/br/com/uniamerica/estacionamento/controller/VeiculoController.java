@@ -75,26 +75,11 @@ public class VeiculoController {
             if(veiculo == null){
                 throw new Exception("Registro inexistente");
             }
-
-            final List<Movimentacao> movimentacoes = this.movimentacaoService.findAll();
-            for(Movimentacao movimentacao : movimentacoes){
-                if(veiculo.equals(movimentacao.getVeiculo())){
-                    veiculo.setAtivo(false);
-                    this.veiculoService.cadastrar(veiculo);
-                    return ResponseEntity.ok("Registro não está mais ativo");
-                }
-            }
-
-            if(veiculo.isAtivo()){
                 this.veiculoService.excluir(id);
                 return ResponseEntity.ok("Registro deletado com sucesso");
-            }
-            else{
-                throw new Exception("Não foi possível excluir o registro");
-            }
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

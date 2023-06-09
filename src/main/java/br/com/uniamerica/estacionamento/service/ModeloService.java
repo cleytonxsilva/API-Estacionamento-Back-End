@@ -57,9 +57,7 @@ public class ModeloService {
         if(excluirModelo.isEmpty()){
             throw new RuntimeException("Marca não encontrada");
         }
-        if(excluirModelo.get().isAtivo()){
-            throw new IllegalStateException("Não é possível excluir esta marca pois existem modelos cadastrados com ela.");
-        }
+
         modeloRepository.deleteById(id);
     }
 }

@@ -63,10 +63,10 @@ public class MarcaController {
             return ResponseEntity.ok("Registro editado com sucesso");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body(e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -77,27 +77,11 @@ public class MarcaController {
             if(marca == null){
                 throw new Exception("Registro inexistente");
             }
-
-            final List<Modelo> modelos = this.modeloRepository.findAll();
-
-            for(Modelo modelo : modelos){
-                if(marca.equals(modelo.getMarca())){
-                    marca.setAtivo(false);
-                    this.marcaService.cadastrar(marca);
-                    return ResponseEntity.ok("Registro não está ativo");
-                }
-            }
-
-            if(marca.isAtivo()){
-                this.marcaService.excluir(id);
-                return ResponseEntity.ok("Registro deletado com sucesso");
-            }
-            else{
-                throw new Exception("Não foi possível excluir o registro");
-            }
+            marcaService.excluir(id);
+            return ResponseEntity.ok("Registro excluido com sucesso");
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }

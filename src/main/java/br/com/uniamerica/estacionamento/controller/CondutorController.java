@@ -75,18 +75,11 @@ public class CondutorController {
             if(condutorBanco == null){
                 throw new Exception("Registro inexistente");
             }
-
-            if(condutorBanco.isAtivo()){
-                this.condutorService.excluir(id);
-                return ResponseEntity.ok("Registro deletado com sucesso");
-            }
-            else{
-                throw new Exception("Não foi possível excluir o registro");
-            }
+            condutorService.excluir(id);
+            return ResponseEntity.ok("Registro excluido com sucesso");
         }
         catch (Exception e){
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
-
 }

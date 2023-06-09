@@ -3,6 +3,7 @@ package br.com.uniamerica.estacionamento.controller;
 
 import br.com.uniamerica.estacionamento.entity.Modelo;
 import br.com.uniamerica.estacionamento.entity.Veiculo;
+import br.com.uniamerica.estacionamento.repository.ModeloRepository;
 import br.com.uniamerica.estacionamento.service.ModeloService;
 import br.com.uniamerica.estacionamento.service.VeiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class ModeloController {
     private ModeloService modeloService;
     @Autowired
     private VeiculoService veiculoService;
+    @Autowired
+    private ModeloRepository modeloRepository;
 
     @GetMapping
     public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
@@ -62,10 +65,10 @@ public class ModeloController {
             return ResponseEntity.ok("Registro editado com sucesso");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body(e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -76,27 +79,11 @@ public class ModeloController {
             if(modelo == null){
                 throw new Exception("Registro inexistente");
             }
-
-            final List<Veiculo> veiculos = this.veiculoService.findAll();
-
-            for(Veiculo veiculo : veiculos){
-                if(modelo.equals(veiculo.getModelo())){
-                    modelo.setAtivo(false);
-                    this.modeloService.cadastrar(modelo);
-                    return ResponseEntity.ok("Registro não está mais ativo");
-                }
-            }
-
-            if(modelo.isAtivo()){
-                this.modeloService.excluir(id);
-                return ResponseEntity.ok("Registro deletado com sucesso");
-            }
-            else{
-                throw new Exception("Não foi possível excluir o registro");
-            }
+            modeloService.excluir(id);
+            return ResponseEntity.ok("Registro excluido com sucesso");
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 }
