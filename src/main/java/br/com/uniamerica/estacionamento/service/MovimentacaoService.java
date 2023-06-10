@@ -34,17 +34,25 @@ public class MovimentacaoService {
         return movimentacaoRepository.findAll();
     }
 
-    public boolean findBySaidaIsNull() {
-         movimentacaoRepository.findBySaidaIsNull();
-        return false;
-    }
+//    public boolean findBySaidaIsNull() {
+//         movimentacaoRepository.findBySaidaIsNull();
+//        return false;
+//    }
 
     @Transactional(rollbackFor = Exception.class)
     public void excluir (final Long id){
         Optional<Movimentacao> excluirMovimentacao = movimentacaoRepository.findById(id);
-        if(findBySaidaIsNull()){
+        if(excluirMovimentacao.isEmpty()){
             throw new RuntimeException("Movimentacao não encontrada");
         }
         movimentacaoRepository.deleteById(id);
+    }
+
+    public void editar(Movimentacao movimentacao) {
+
+        if(isNull(movimentacao.getCondutor()) || isNull((movimentacao.getVeiculo())) || isNull(movimentacao.getEntrada())){
+            throw new RuntimeException("Condutor, Veiculo e Horário de entrada são campos obrigatórios");
+        }
+        movimentacaoRepository.save(movimentacao);
     }
 }

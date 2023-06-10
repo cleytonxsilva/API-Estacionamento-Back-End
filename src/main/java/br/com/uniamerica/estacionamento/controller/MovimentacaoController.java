@@ -25,11 +25,12 @@ public class MovimentacaoController {
     public ResponseEntity<?> listaCompleta(){
         return ResponseEntity.ok(this.movimentacaoService.findAll());
     }
-    @GetMapping("/abertas")
-    public ResponseEntity<?> findByAberta(){
-        final boolean movimentacoes = this.movimentacaoService.findBySaidaIsNull();
-        return ResponseEntity.ok(movimentacoes);
-    }
+
+//    @GetMapping("/abertas")
+//    public ResponseEntity<?> findByAberta(){
+//        final boolean movimentacoes = this.movimentacaoService.findBySaidaIsNull();
+//        return ResponseEntity.ok(movimentacoes);
+//    }
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao) {
@@ -37,7 +38,7 @@ public class MovimentacaoController {
             this.movimentacaoService.cadastrar(movimentacao);
             return ResponseEntity.ok("Registro cadastrado com sucesso");
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.internalServerError().body("Error" + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body(e.getCause().getCause().getMessage());
         }
     }
     @PutMapping
@@ -45,19 +46,19 @@ public class MovimentacaoController {
         try{
             final Movimentacao movimentacaoBanco = this.movimentacaoService.findById(id).orElse(null);
 
-            if(movimentacaoBanco == null || movimentacaoBanco.getId().equals(movimentacao.getId()))
+            if(movimentacaoBanco == null)
             {
                 throw new RuntimeException("Não foi possível identificar o registro informado");
             }
 
-            this.movimentacaoService.cadastrar(movimentacao);
+            this.movimentacaoService.editar(movimentacao);
             return ResponseEntity.ok("Registro editado com sucesso");
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getCause().getCause().getMessage());
+            return ResponseEntity.internalServerError().body(e.getCause().getCause().getMessage());
         }
         catch (RuntimeException e){
-            return ResponseEntity.internalServerError().body("Error " + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
@@ -69,12 +70,11 @@ public class MovimentacaoController {
                 throw new Exception("Registro inexistente");
             }
 
-            movimentacao.setAtivo(false);
             this.movimentacaoService.excluir(id);
-            return ResponseEntity.ok("Registro não está ativo");
+            return ResponseEntity.ok("Registro excluido");
         }
         catch (Exception e){
-            return ResponseEntity.internalServerError().body("Error" + e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
