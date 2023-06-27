@@ -33,5 +33,4 @@ public class Condutor extends AbstractEntity{
     @Getter @Setter
     @Column(name = "tempo_desconto")
     private Long tempoDesconto = 0L;
-
 }

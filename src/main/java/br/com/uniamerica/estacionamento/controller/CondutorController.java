@@ -20,8 +20,8 @@ public class CondutorController {
     private CondutorService condutorService;
     private MovimentacaoRepository movimentacaoRepository;
 
-    @GetMapping
-    public ResponseEntity<?> findByIdRequest(@RequestParam("id") final Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable("id") final Long id){
         final Condutor condutor = this.condutorService.findById(id).orElse(null);
         return condutor == null
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
