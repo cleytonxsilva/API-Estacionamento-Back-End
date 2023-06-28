@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(value = "/api/modelo")
 public class ModeloController {
     @Autowired

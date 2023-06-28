@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(value = "/api/condutor")
 public class CondutorController {
 
@@ -20,8 +21,8 @@ public class CondutorController {
     private CondutorService condutorService;
     private MovimentacaoRepository movimentacaoRepository;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") final Long id){
+    @GetMapping//("/{id}")
+    public ResponseEntity<?> findById(@RequestParam("id") final Long id){
         final Condutor condutor = this.condutorService.findById(id).orElse(null);
         return condutor == null
                 ? ResponseEntity.badRequest().body("Nenhum valor encontrado")
